@@ -1,7 +1,6 @@
 import React from "react";
 import { Icon } from "@iconify/react";
-// import ZoomControls from "./ZoomControls";
-import html2canvas from "html2canvas";
+// import ZoomControls from "./ZoomControls"; // Uncomment if ZoomControls is needed
 import Accessibility from "../../utils/Accessibility";
 
 const Controls = ({
@@ -12,9 +11,11 @@ const Controls = ({
    increaseTextSize,
    decreaseTextSize,
    takeScreenshot,
+   reloadPage,  // Add this prop
 }) => (
    <div className="fixed bottom-0 left-0 w-full bg-[#FFDFCD] p-2">
       <div className="flex justify-center items-center">
+         {/* Uncomment the ZoomControls component if you need zoom controls */}
          {/* {isZoomControlsVisible && (
             <ZoomControls
                increaseTextSize={increaseTextSize}
@@ -45,7 +46,10 @@ const Controls = ({
                   <p>Listen</p>
                </div>
             </button>
-            <button className="h-[56px] bg-[#FF9248] rounded-lg border-2 border-white text-[#2E2929] hover:bg-gray-700 hover:text-white transition-colors duration-300 ease-in-out">
+            <button
+               className="h-[56px] bg-[#FF9248] rounded-lg border-2 border-white text-[#2E2929] hover:bg-gray-700 hover:text-white transition-colors duration-300 ease-in-out"
+               onClick={reloadPage}  // Add the onClick event to trigger page reload
+            >
                <div className="flex flex-col items-center justify-center">
                   <Icon icon="mdi:reload" width={22} />
                   <p>Reload</p>
@@ -53,7 +57,7 @@ const Controls = ({
             </button>
             <button
                className="h-[56px] bg-[#FF9248] rounded-lg border-2 border-white text-[#2E2929] hover:bg-gray-700 hover:text-white transition-colors duration-300 ease-in-out"
-               onClick={takeScreenshot}
+               onClick={takeScreenshot} 
             >
                <div className="flex flex-col items-center justify-center">
                   <Icon icon="mdi:camera" width={22} />

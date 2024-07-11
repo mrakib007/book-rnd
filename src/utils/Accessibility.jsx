@@ -166,14 +166,14 @@ const Accessibility = () => {
                {buttons.map((button) => (
                   <button
                      key={button.key}
-                     className="p-2 bg-zinc-900 text-white rounded-md"
+                     className="h-[56px] bg-zinc-900 text-white rounded-md text-sm"
                      onClick={() => {
                         localStorage.setItem("selectedButton", button.key);
                         button.action();
                         // setDivVisibility(false);
                      }}
                   >
-                     <Icon icon={button.icon} className="h-6 w-6" />
+                     <Icon icon={button.icon} width={22} />
                   </button>
                ))}
             </div>
