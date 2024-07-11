@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layouts/Main";
 import Home from "../pages/HomePage/Home";
 import TextToSpeech from "../pages/TextToSpeech/TextToSpeech";
+import Book from "../pages/Book/Book";
 
 const router = createBrowserRouter([
    {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
          {
             path: "/text-speech",
             element: <TextToSpeech />,
+         },
+         {
+            path: "/book",
+            element: <Book/>
          }
       ],
    },
