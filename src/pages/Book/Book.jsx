@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Controls from "./Controls";
 import Page from "./Page";
 import { pages } from "./pages";
-import { Icon } from "@iconify/react";
 import html2canvas from "html2canvas";
 import useSpeech from "../../hooks/useSpeech";
 
@@ -20,7 +19,6 @@ const Book = () => {
       decreaseTextSize,
       isZoomControlsVisible,
       toggleZoomControls,
-    //   setCurrentPage,
    } = useSpeech(pages);
 
    const leftPageIndex = currentPage;
@@ -28,10 +26,12 @@ const Book = () => {
    const canGoToNextPage = rightPageIndex < pages.length;
    const canGoToPreviousPage = leftPageIndex > 0;
    const [scale, setScale] = useState(1);
+   const [isSinglePage, setIsSinglePage] = useState(window.innerWidth < 768);
 
    useEffect(() => {
       const handleResize = () => {
          const w = window.innerWidth;
+         setIsSinglePage(w < 768);
          if (w < 1300) {
             setScale(w / 1300);
          } else {
@@ -63,12 +63,11 @@ const Book = () => {
       <div className="h-screen overflow-hidden flex flex-col items-center bg-gray-100">
          <div className="flex flex-1 items-start justify-center w-full">
             <div
-               className="page-container min-w-[1400px]"
+               className="page-container flex"
                style={{ transform: `scale(${scale})` }}
             >
                <div
-                  className="p-4 rounded mb-4 overflow-auto w-[595px] h-[842px] bg-white"
-                  style={{ boxShadow: "25px 0px 20px -20px rgba(0,0,0,0.45)" }}
+                  className="p-4 rounded mb-4 overflow-auto w-[610px] h-[842px] bg-white shadow-lg"
                >
                   <h3 className="text-xl font-bold">Part 3</h3>
                   <h4 className="text-lg font-semibold">Hajinの日記</h4>
@@ -85,29 +84,30 @@ const Book = () => {
                      pageIndex={leftPageIndex}
                   />
                </div>
-               <div className="border-l-2 border-gray-300"></div>
-               {canGoToNextPage ? (
-                  <div
-                     className="p-4 rounded mb-4 overflow-auto w-[595px] h-[842px] bg-white"
-                     style={{
-                        boxShadow: "-25px 0px 20px -20px rgba(0,0,0,0.45)",
-                     }}
-                  >
-                     <h5 className="text-sm text-gray-500">
-                        Page {rightPageIndex + 1}
-                     </h5>
-                     <Page
-                        content={pages[rightPageIndex].content}
-                        textSize={textSize}
-                        elementsRef={elements}
-                        onLineClick={(index) =>
-                           handleLineClick(index, rightPageIndex)
-                        }
-                        pageIndex={rightPageIndex}
-                     />
-                  </div>
-               ) : (
-                  <div className="w-[595px] h-[842px] bg-white"></div>
+               {!isSinglePage && (
+                  <>
+                     <div className="border-l-2 border-gray-300"></div>
+                     {canGoToNextPage ? (
+                        <div
+                           className="p-4 rounded mb-4 overflow-auto w-[610px] h-[842px] bg-white shadow-lg"
+                        >
+                           <h5 className="text-sm text-gray-500">
+                              Page {rightPageIndex + 1}
+                           </h5>
+                           <Page
+                              content={pages[rightPageIndex].content}
+                              textSize={textSize}
+                              elementsRef={elements}
+                              onLineClick={(index) =>
+                                 handleLineClick(index, rightPageIndex)
+                              }
+                              pageIndex={rightPageIndex}
+                           />
+                        </div>
+                     ) : (
+                        <div className="w-[610px] h-[842px] bg-white"></div>
+                     )}
+                  </>
                )}
             </div>
          </div>
@@ -119,27 +119,9 @@ const Book = () => {
                isZoomControlsVisible={isZoomControlsVisible}
                increaseTextSize={increaseTextSize}
                decreaseTextSize={decreaseTextSize}
-               takeScreenshot={takeScreenshot} 
+               takeScreenshot={takeScreenshot}
             />
          </div>
-         <button
-            className={`left-0 top-1/2 transform -translate-y-1/2 p-1 bg-[#FF9248] text-black rounded-full border-2 border-blue-200 hover:bg-gray-700 hover:text-white transition-colors duration-300 ease-in-out ${
-               !canGoToPreviousPage ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={goToPreviousPage}
-            disabled={!canGoToPreviousPage}
-         >
-            <Icon icon="mdi:arrow-left" width={30} />
-         </button>
-         <button
-            className={`right-0 top-1/2 transform -translate-y-1/2 p-1 bg-[#FF9248] text-black rounded-full border-2 border-blue-200 hover:bg-gray-700 hover:text-white transition-colors duration-300 ease-in-out ${
-               !canGoToNextPage ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={goToNextPage}
-            disabled={!canGoToNextPage}
-         >
-            <Icon icon="mdi:arrow-right" width={30} />
-         </button>
       </div>
    );
 };
