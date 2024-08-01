@@ -3,16 +3,17 @@ import Main from "../Layouts/Main";
 import Home from "../pages/HomePage/Home";
 import TextToSpeech from "../pages/TextToSpeech/TextToSpeech";
 import Book from "../pages/Book/Book";
+import BookLayout from "../pages/BookLayout/BookLayout";
 
 const router = createBrowserRouter([
    {
       path: "/",
       element: <Main />,
       children: [
-         {
-            path: "/",
-            element: <Home />,
-         },
+         // {
+         //    path: "/",
+         //    element: <Home />,
+         // },
          {
             path: "/text-speech",
             element: <TextToSpeech />,
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
          {
             path: "/book",
             element: <Book/>
+         },
+         {
+            path: "/",
+            element: <BookLayout/>
          }
       ],
    },
